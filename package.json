@@ -1,0 +1,30 @@
+{
+  "name": "@d2l/brightspace-auth-provisioning",
+  "version": "1.0.0",
+  "description": "Make token assertions against an auth service",
+  "main": "src/index.js",
+  "scripts": {
+    "check-style": "jscs . && jshint .",
+    "test": "npm run check-style"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Brightspace/node-auth-provisioning.git"
+  },
+  "author": "D2L Corporation",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/Brightspace/node-auth-provisioning/issues"
+  },
+  "homepage": "https://github.com/Brightspace/node-auth-provisioning",
+  "dependencies": {
+    "bluebird": "^2.9.24",
+    "jsonwebtoken": "^5.0.0",
+    "querystringparser": "^0.1.1",
+    "superagent": "^1.2.0"
+  },
+  "devDependencies": {
+    "jscs": "^1.12.0",
+    "jshint": "^2.7.0"
+  }
+}
