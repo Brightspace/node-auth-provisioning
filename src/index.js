@@ -3,7 +3,10 @@
 var jwt = require('jsonwebtoken'),
 	Promise = require('bluebird'),
 	qs = require('querystringparser'),
-	request = require('superagent');
+	request = require('superagent'),
+	xtend = require('xtend');
+
+var AbstractProvisioningCache = require('./abstract-provisioning-cache');
 
 var ASSERTION_AUDIENCE = 'https://api.brightspace.com/auth/token',
 	ASSERTION_GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -28,6 +31,12 @@ function AuthTokenProvisioner (opts) {
 
 	if ('function' !== typeof opts.keyLookup) {
 		throw new Error('"opts.keyLookup" must be a function which returns a Promise to a signing key');
+	}
+
+	this._cache = opts.cache || new AbstractProvisioningCache();
+
+	if (!(this._cache instanceof AbstractProvisioningCache)) {
+		throw new Error('"opts.cache" must be an instance of AbstractProvisioningCache if provided');
 	}
 
 	var remoteIssuer = 'string' === typeof opts.remoteIssuer
@@ -64,10 +73,24 @@ AuthTokenProvisioner.prototype.provisionToken = Promise.method(function provisio
 	}
 
 	return self
-		._buildAssertion(claims)
-		.then(function (assertion) {
+		._cache
+		.get(claims, scope)
+		.catch(function () {
 			return self
-				._makeAssertion(assertion, scope);
+				._buildAssertion(claims)
+				.then(function (assertion) {
+					return self
+						._makeAssertion(assertion, scope);
+				})
+				.then(function (token) {
+					return self
+						._cache
+						.set(claims, scope, token)
+						.catch(function () {})
+						.then(function () {
+							return token;
+						});
+				});
 		});
 });
 
@@ -83,6 +106,8 @@ AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion (payloa
 			) {
 				throw new Error('received invalid signing key from "keyLookup"');
 			}
+
+			payload = xtend(payload);
 
 			payload.aud = ASSERTION_AUDIENCE;
 			payload.iss = self._issuer;
@@ -127,3 +152,4 @@ AuthTokenProvisioner.prototype._makeAssertion = function makeAssertion (assertio
 };
 
 module.exports = AuthTokenProvisioner;
+module.exports.AbstractProvisioningCache = AbstractProvisioningCache;
