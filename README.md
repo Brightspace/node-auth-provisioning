@@ -56,6 +56,11 @@ signing key. The object must have the properties `kid`, which is a unique
 
 You may optionally specifiy the endpoint of the remote issuer, or auth service.
 
+##### Option: cache `AbstractProvisioningCache` _(AbstractProvisioningCache)_
+
+You may optionally specify an instance of an object inheriting from
+`AuthTokenProvisioner.AbstractProvisioningCache`.
+
 ---
 
 #### `.provisionToken(Object options)` -> `Promise<String>`
@@ -76,6 +81,12 @@ The GUID of the tenant this token is meant for.
 
 The id of the user this token is meant for. Requires the _tenant_ option has
 been set.
+
+---
+
+#### `.AbstractProvisioningCache`
+
+Available on the export is a reference to the `AbstractProvisioningCache`
 
 ## Testing
 
