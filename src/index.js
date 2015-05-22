@@ -11,7 +11,7 @@ var AbstractProvisioningCache = require('./abstract-provisioning-cache');
 var ASSERTION_AUDIENCE = 'https://api.brightspace.com/auth/token',
 	ASSERTION_GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer',
 	ASSERTION_LIFETIME_SECONDS = 60,
-	DEFAULT_REMOTE_ISSUER = 'https://auth.proddev.d2l:44331/core',
+	DEFAULT_REMOTE_ISSUER = 'https://auth.brightspace.com/core',
 	TOKEN_PATH = '/connect/token';
 
 function clock () {
