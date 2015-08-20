@@ -115,7 +115,7 @@ AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion (payloa
 			payload.exp = payload.iat + ASSERTION_LIFETIME_SECONDS;
 
 			var assertion = jwt.sign(payload, signingKey.pem, {
-				header: {
+				headers: {
 					alg: 'RS256',
 					kid: signingKey.kid
 				},
