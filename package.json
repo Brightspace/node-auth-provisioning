@@ -12,7 +12,7 @@
     "url": "https://github.com/Brightspace/node-auth-provisioning.git"
   },
   "author": "D2L Corporation",
-  "license": "",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Brightspace/node-auth-provisioning/issues"
   },
