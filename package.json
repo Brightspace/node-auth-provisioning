@@ -1,5 +1,5 @@
 {
-  "name": "@d2l/brightspace-auth-provisioning",
+  "name": "brightspace-auth-provisioning",
   "version": "2.0.1",
   "description": "Make token assertions against an auth service",
   "main": "src/index.js",
