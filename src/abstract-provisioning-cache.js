@@ -9,20 +9,20 @@ var inherits = require('util').inherits,
 var DEFAULT_EXPIRY_SECONDS = 60 * 60,
 	EXPIRY_BUFFER_TIME_SECONDS = 2 * 60;
 
-function ValueLookupFailed (inner) {
+function ValueLookupFailed(inner) {
 	this.name = 'ValueLookupFailed';
 	this.message = 'Value lookup failed';
 	this.inner = inner;
 }
 inherits(ValueLookupFailed, Error);
 
-function clock () {
+function clock() {
 	return Math.round(Date.now() / 1000);
 }
 
-function AbstractProvisioningCache () {}
+function AbstractProvisioningCache() {}
 
-AbstractProvisioningCache.prototype.get = Promise.method(function get (claims, scope) {
+AbstractProvisioningCache.prototype.get = Promise.method(/* @this */ function get(claims, scope) {
 	if ('object' !== typeof claims) {
 		throw new Error('"claims" must be an Object');
 	}
@@ -39,11 +39,11 @@ AbstractProvisioningCache.prototype.get = Promise.method(function get (claims, s
 
 	return Promise
 		.resolve(this._get(key))
-		.catch(function (err) {
+		.catch(function(err) {
 			err = new ValueLookupFailed(err);
 			throw err;
 		})
-		.then(function (token) {
+		.then(function(token) {
 			if ('string' !== typeof token) {
 				throw new ValueLookupFailed();
 			}
@@ -61,7 +61,7 @@ AbstractProvisioningCache.prototype.get = Promise.method(function get (claims, s
 		});
 });
 
-AbstractProvisioningCache.prototype.set = Promise.method(function set (claims, scope, token) {
+AbstractProvisioningCache.prototype.set = Promise.method(/* @this */ function set(claims, scope, token) {
 	if ('object' !== typeof claims) {
 		throw new Error('"claims" must be an Object');
 	}
@@ -95,7 +95,7 @@ AbstractProvisioningCache.prototype.set = Promise.method(function set (claims, s
 		.return(undefined);
 });
 
-AbstractProvisioningCache.prototype._buildKey = function buildKey (claims, scope) {
+AbstractProvisioningCache.prototype._buildKey = function buildKey(claims, scope) {
 	var request = xtend(claims);
 	request.scope = scope;
 

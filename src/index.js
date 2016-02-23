@@ -14,11 +14,11 @@ var ASSERTION_AUDIENCE = 'https://api.brightspace.com/auth/token',
 	DEFAULT_REMOTE_ISSUER = 'https://auth.brightspace.com/core',
 	TOKEN_PATH = '/connect/token';
 
-function clock () {
+function clock() {
 	return Math.round(Date.now() / 1000);
 }
 
-function AuthTokenProvisioner (opts) {
+function AuthTokenProvisioner(opts) {
 	if (!(this instanceof AuthTokenProvisioner)) {
 		return new AuthTokenProvisioner(opts);
 	}
@@ -49,7 +49,7 @@ function AuthTokenProvisioner (opts) {
 	this._tokenEndpoint = remoteIssuer + TOKEN_PATH;
 }
 
-AuthTokenProvisioner.prototype.provisionToken = Promise.method(function provisionToken (opts) {
+AuthTokenProvisioner.prototype.provisionToken = Promise.method(/* @this */ function provisionToken(opts) {
 	var self = this;
 
 	opts = opts || {};
@@ -86,31 +86,31 @@ AuthTokenProvisioner.prototype.provisionToken = Promise.method(function provisio
 	return self
 		._cache
 		.get(claims, scope)
-		.catch(function () {
+		.catch(function() {
 			return self
 				._buildAssertion(claims)
-				.then(function (assertion) {
+				.then(function(assertion) {
 					return self
 						._makeAssertion(assertion, scope);
 				})
-				.then(function (token) {
+				.then(function(token) {
 					return self
 						._cache
 						.set(claims, scope, token)
-						.catch(function () {})
-						.then(function () {
+						.catch(function() {})
+						.then(function() {
 							return token;
 						});
 				});
 		});
 });
 
-AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion (payload) {
+AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion(payload) {
 	var self = this;
 
 	return self
 		._latestKey()
-		.then(function (signingKey) {
+		.then(function(signingKey) {
 			if ('object' !== typeof signingKey
 				|| 'string' !== typeof signingKey.kid
 				|| 'string' !== typeof signingKey.pem
@@ -137,7 +137,7 @@ AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion (payloa
 		});
 };
 
-AuthTokenProvisioner.prototype._makeAssertion = function makeAssertion (assertion, scope) {
+AuthTokenProvisioner.prototype._makeAssertion = function makeAssertion(assertion, scope) {
 	var self = this;
 
 	var body = qs.stringify({
@@ -146,12 +146,12 @@ AuthTokenProvisioner.prototype._makeAssertion = function makeAssertion (assertio
 		scope: scope
 	});
 
-	return new Promise(function (resolve, reject) {
+	return new Promise(function(resolve, reject) {
 		request
 			.post(self._tokenEndpoint)
 			.type('application/x-www-form-urlencoded')
 			.send(body)
-			.end(function (err, res) {
+			.end(function(err, res) {
 				if (err) {
 					reject(err);
 					return;
