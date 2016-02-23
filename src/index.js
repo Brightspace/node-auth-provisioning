@@ -71,6 +71,13 @@ AuthTokenProvisioner.prototype.provisionToken = Promise.method(function provisio
 	if (opts.tenant) {
 		claims.tenantid = opts.tenant;
 	}
+	if (opts.impersonator) {
+		if (!claims.sub) {
+			throw new Error('"opts.impersonator" depends on "opts.user"');
+		}
+
+		claims.actualsub = opts.impersonator;
+	}
 
 	if (opts.fsid) {
 		claims.fsid = opts.fsid;
