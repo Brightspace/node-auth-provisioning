@@ -56,7 +56,7 @@ signing key. The object must have the properties `kid`, which is a unique
 
 **NOTE:** Only _RSA_ keys are supported at this time.
 
-##### Option: remoteIssuer `String` _(https://auth.proddev.d2l:44331/core)_
+##### Option: remoteIssuer `String` _(https://auth.brightspace.com/core)_
 
 You may optionally specifiy the endpoint of the remote issuer, or auth service.
 
