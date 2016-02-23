@@ -30,7 +30,8 @@ var tokenPromise = provisioner
 	.provisionToken({
 		user: '32647',
 		tenant: '5492ff8a-e6ad-11e4-84d6-54ee750fffa4',
-		scopes: ['updates:feed-items:read']
+		scopes: ['updates:feed-items:read'],
+		fsid: 'eyJhbGciOiJIUzI1Ni...'
 	});
 ```
 
@@ -83,6 +84,10 @@ The GUID of the tenant this token is meant for.
 
 The id of the user this token is meant for. Requires the _tenant_ option has
 been set.
+
+##### Option: fsid `String`
+
+The Caliper FSID associated with this token.
 
 ---
 

@@ -72,6 +72,10 @@ AuthTokenProvisioner.prototype.provisionToken = Promise.method(function provisio
 		claims.tenantid = opts.tenant;
 	}
 
+	if (opts.fsid) {
+		claims.fsid = opts.fsid;
+	}
+
 	return self
 		._cache
 		.get(claims, scope)
