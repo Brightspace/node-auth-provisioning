@@ -1,6 +1,6 @@
 {
   "name": "brightspace-auth-provisioning",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Make token assertions against an auth service",
   "main": "src/index.js",
   "scripts": {
