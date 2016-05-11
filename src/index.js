@@ -1,9 +1,10 @@
 'use strict';
 
-var jwt = require('jsonwebtoken'),
+var jws = require('jws'),
 	Promise = require('bluebird'),
 	qs = require('querystringparser'),
 	request = require('superagent'),
+	uuid = require('uuid'),
 	xtend = require('xtend');
 
 var AbstractProvisioningCache = require('./abstract-provisioning-cache');
@@ -122,15 +123,19 @@ AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion(payload
 
 			payload.aud = ASSERTION_AUDIENCE;
 			payload.iss = self._issuer;
-			payload.iat = self._clock();
+			payload.iat = payload.nbf = self._clock();
 			payload.exp = payload.iat + ASSERTION_LIFETIME_SECONDS;
 
-			var assertion = jwt.sign(payload, signingKey.pem, {
-				headers: {
+			var assertion = jws.sign({
+				header: {
 					alg: 'RS256',
-					kid: signingKey.kid
+					kid: signingKey.kid,
+					typ: 'JWT',
+					jti: uuid()
 				},
-				noTimestamp: true
+				payload: JSON.stringify(payload),
+				secret: signingKey.pem,
+				encoding: 'utf8'
 			});
 
 			return assertion;
