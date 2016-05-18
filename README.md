@@ -7,14 +7,14 @@ Library for making assertions against an auth service.
 ## Install
 
 ```bash
-npm install @d2l/brightspace-auth-provisioning --save
+npm install brightspace-auth-provisioning --save
 ```
 
 
 ## Usage
 
 ```js
-var AuthTokenProvisioner = require('@d2l/brightspace-auth-provisioning');
+var AuthTokenProvisioner = require('brightspace-auth-provisioning');
 
 var provisioner = new AuthTokenProvisioner({
 	issuer: 'ece083bc-e6ac-11e4-8e1b-54ee750fffa4',
