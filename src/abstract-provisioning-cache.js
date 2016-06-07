@@ -51,6 +51,7 @@ AbstractProvisioningCache.prototype.get = Promise.method(/* @this */ function ge
 			var decodedToken = jws.decode(token);
 
 			if ('object' !== typeof decodedToken
+				|| 'object' !== typeof decodedToken.payload
 				|| 'number' !== typeof decodedToken.payload.exp
 				|| (decodedToken.payload.exp - EXPIRY_BUFFER_TIME_SECONDS) <= clock()
 			) {
@@ -75,7 +76,7 @@ AbstractProvisioningCache.prototype.set = Promise.method(/* @this */ function se
 	}
 
 	var decodedToken = jws.decode(token);
-	if ('object' !== typeof decodedToken) {
+	if ('object' !== typeof decodedToken || 'object' !== typeof decodedToken.payload) {
 		throw new Error('"token" must be an encoded jwt');
 	}
 
