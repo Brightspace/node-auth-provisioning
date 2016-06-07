@@ -1,7 +1,7 @@
 'use strict';
 
 var inherits = require('util').inherits,
-	jwt = require('jsonwebtoken'),
+	jws = require('jws'),
 	Promise = require('bluebird'),
 	qs = require('querystring'),
 	xtend = require('xtend');
@@ -48,11 +48,11 @@ AbstractProvisioningCache.prototype.get = Promise.method(/* @this */ function ge
 				throw new ValueLookupFailed();
 			}
 
-			var decodedToken = jwt.decode(token);
+			var decodedToken = jws.decode(token);
 
 			if ('object' !== typeof decodedToken
-				|| 'number' !== typeof decodedToken.exp
-				|| (decodedToken.exp - EXPIRY_BUFFER_TIME_SECONDS) <= clock()
+				|| 'number' !== typeof decodedToken.payload.exp
+				|| (decodedToken.payload.exp - EXPIRY_BUFFER_TIME_SECONDS) <= clock()
 			) {
 				throw new ValueLookupFailed();
 			}
@@ -74,7 +74,7 @@ AbstractProvisioningCache.prototype.set = Promise.method(/* @this */ function se
 		throw new Error('"token" must be an encoded jwt');
 	}
 
-	var decodedToken = jwt.decode(token);
+	var decodedToken = jws.decode(token);
 	if ('object' !== typeof decodedToken) {
 		throw new Error('"token" must be an encoded jwt');
 	}
@@ -85,8 +85,8 @@ AbstractProvisioningCache.prototype.set = Promise.method(/* @this */ function se
 
 	var key = this._buildKey(claims, scope);
 
-	var expiry = 'number' === typeof decodedToken.exp
-		? decodedToken.exp
+	var expiry = 'number' === typeof decodedToken.payload.exp
+		? decodedToken.payload.exp
 		: DEFAULT_EXPIRY_SECONDS + clock();
 	expiry -= EXPIRY_BUFFER_TIME_SECONDS;
 
