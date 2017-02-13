@@ -21,7 +21,8 @@ var provisioner = new AuthTokenProvisioner({
 	keyLookup: function () {
 		return Promise.resolve({
 			kid: '0a9e68f6-e6ad-11e4-8ab6-54ee750fffa4',
-			pem: '...'
+			pem: '...',
+			alg: 'ES256'
 		});
 	}
 });
@@ -52,9 +53,12 @@ with the auth service.
 
 A function which returns a `Promise` to an `Object` representing your current
 signing key. The object must have the properties `kid`, which is a unique
-`String`, and `pem` which is the `String` representing the private key.
+`String`, and `pem` which is the `String` representing the private key. The
+object should also have a `String` property `alg` representing the signing
+algorithm to use. `alg` must be one of `ES256`, `ES384`, `ES512` or `RS256`.
+`RS256` will be assumed if `alg` is not provided.
 
-**NOTE:** Only _RSA_ keys are supported at this time.
+**NOTE:** `alg` will be required in the future.
 
 ##### Option: remoteIssuer `String` _(https://auth.brightspace.com/core)_
 
