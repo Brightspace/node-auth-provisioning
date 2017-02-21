@@ -13,7 +13,8 @@ var ASSERTION_AUDIENCE = 'https://api.brightspace.com/auth/token',
 	ASSERTION_GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer',
 	ASSERTION_LIFETIME_SECONDS = 60,
 	DEFAULT_REMOTE_ISSUER = 'https://auth.brightspace.com/core',
-	TOKEN_PATH = '/connect/token';
+	TOKEN_PATH = '/connect/token',
+	SUPPORTED_ALGS = ['ES256', 'ES384', 'ES512', 'RS256'/*, 'RS384', 'RS512'*/]; // D2L.Security.OAuth2 assumes RS256
 
 function clock() {
 	return Math.round(Date.now() / 1000);
@@ -119,6 +120,12 @@ AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion(payload
 				throw new Error('received invalid signing key from "keyLookup"');
 			}
 
+			if ('undefined' !== typeof signingKey.alg
+				&& -1 === SUPPORTED_ALGS.indexOf(signingKey.alg)
+			) {
+				throw new Error('received invalid signing key from "keyLookup"');
+			}
+
 			payload = xtend(payload);
 
 			payload.aud = ASSERTION_AUDIENCE;
@@ -128,7 +135,7 @@ AuthTokenProvisioner.prototype._buildAssertion = function buildAssertion(payload
 
 			var assertion = jws.sign({
 				header: {
-					alg: 'RS256',
+					alg: signingKey.alg || 'RS256',
 					kid: signingKey.kid,
 					typ: 'JWT',
 					jti: uuid()
