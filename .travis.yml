@@ -1,7 +1,9 @@
 sudo: false
 language: node_js
 node_js:
-- iojs
+- 4
+- 6
+- 7
 deploy:
   provider: npm
   email: d2ltravisdeploy@d2l.com
