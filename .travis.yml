@@ -4,11 +4,16 @@ node_js:
 - 4
 - 6
 - 8
-deploy:
-  provider: npm
-  email: d2ltravisdeploy@d2l.com
-  api_key:
-    secure: hO0Afy1NsKqGPzkdXPZ9zEsVInyOIbp7aaEvzL2IAPNTxZ20eXFWxqlP9JzRsKeh8qewXMLLSDl/CvsJS7JqhBXehK7Slzd/tm4WDOmfuf13yqoIruuDSTMjYMP4aSoGDi+BKLQCYu+NyhOhyclmQ42UdQhVJJHr14h8Ft5QrgpFACj47F2RAjC32JykLk3Bqa/ZeGY9xFnMHU3X1au7mEED43p5kB9zCp2ID+l0xVMfGwZAX/Knb1Mauizz1RWkjLn/NCDnxaOQeJzzYxHr3ObOZtdpVpMvqHeR2a/oDWDcgs/KduFea7f/JQ3KNZPx23sGLhWYcGx8Vjwy+f9rtHK6gQuqrMHgcMS43GRLDUBepr4TBKKpq6VuoEbW5nCy2SPHhMfysM2YUMWWZh1TsQNbxC6bB27ol4/WGWBm0guE4PT8+fE3ybMtcQyka3e66JOr3I1ZsPeB8hrflBU+zLVGlzntl3wQU6F+WVzdoCblpe7eGCB19LeKVa0nOb7qrVJcPjMd+BWDOPNHcNcmlUzDIqIjYwRc211+mUE3FeZ4DAk2XfH72B0oCFU07uul38vSMC1Vkdge7Hyws7UAE3+e4uHJ5G2GtCvdu91Ac3erRl0R+KEkYS4AmOcfvW0Hcb9VATmeVu/RoQE3Pn5BWt9sQd8UZFfVf6udJ620hc0=
-  on:
-    tags: true
-    repo: Brightspace/node-auth-provisioning
+jobs:
+  include:
+    - stage: npm publish
+      node_js: 8
+      script: true
+      deploy:
+        provider: npm
+        email: d2ltravisdeploy@d2l.com
+        api_key:
+          secure: hO0Afy1NsKqGPzkdXPZ9zEsVInyOIbp7aaEvzL2IAPNTxZ20eXFWxqlP9JzRsKeh8qewXMLLSDl/CvsJS7JqhBXehK7Slzd/tm4WDOmfuf13yqoIruuDSTMjYMP4aSoGDi+BKLQCYu+NyhOhyclmQ42UdQhVJJHr14h8Ft5QrgpFACj47F2RAjC32JykLk3Bqa/ZeGY9xFnMHU3X1au7mEED43p5kB9zCp2ID+l0xVMfGwZAX/Knb1Mauizz1RWkjLn/NCDnxaOQeJzzYxHr3ObOZtdpVpMvqHeR2a/oDWDcgs/KduFea7f/JQ3KNZPx23sGLhWYcGx8Vjwy+f9rtHK6gQuqrMHgcMS43GRLDUBepr4TBKKpq6VuoEbW5nCy2SPHhMfysM2YUMWWZh1TsQNbxC6bB27ol4/WGWBm0guE4PT8+fE3ybMtcQyka3e66JOr3I1ZsPeB8hrflBU+zLVGlzntl3wQU6F+WVzdoCblpe7eGCB19LeKVa0nOb7qrVJcPjMd+BWDOPNHcNcmlUzDIqIjYwRc211+mUE3FeZ4DAk2XfH72B0oCFU07uul38vSMC1Vkdge7Hyws7UAE3+e4uHJ5G2GtCvdu91Ac3erRl0R+KEkYS4AmOcfvW0Hcb9VATmeVu/RoQE3Pn5BWt9sQd8UZFfVf6udJ620hc0=
+        on:
+          tags: true
+          repo: Brightspace/node-auth-provisioning
