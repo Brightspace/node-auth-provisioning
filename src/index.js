@@ -7,7 +7,8 @@ var jws = require('jws'),
 	uuid = require('uuid/v4'),
 	xtend = require('xtend');
 
-var AbstractProvisioningCache = require('./abstract-provisioning-cache');
+var AbstractProvisioningCache = require('./abstract-provisioning-cache'),
+	clock = require('./clock');
 
 var ASSERTION_AUDIENCE = 'https://api.brightspace.com/auth/token',
 	ASSERTION_GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -15,10 +16,6 @@ var ASSERTION_AUDIENCE = 'https://api.brightspace.com/auth/token',
 	DEFAULT_REMOTE_ISSUER = 'https://auth.brightspace.com/core',
 	TOKEN_PATH = '/connect/token',
 	SUPPORTED_ALGS = ['ES256', 'ES384', 'ES512', 'RS256'/*, 'RS384', 'RS512'*/]; // D2L.Security.OAuth2 assumes RS256
-
-function clock() {
-	return Math.round(Date.now() / 1000);
-}
 
 function AuthTokenProvisioner(opts) {
 	if (!(this instanceof AuthTokenProvisioner)) {
