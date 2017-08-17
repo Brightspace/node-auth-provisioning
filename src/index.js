@@ -1,7 +1,7 @@
 'use strict';
 
 var jws = require('jws'),
-	Promise = require('bluebird'),
+	promised = require('promised-method'),
 	qs = require('querystring'),
 	request = require('superagent'),
 	uuid = require('uuid/v4'),
@@ -48,7 +48,7 @@ function AuthTokenProvisioner(opts) {
 	this._tokenEndpoint = remoteIssuer + TOKEN_PATH;
 }
 
-AuthTokenProvisioner.prototype.provisionToken = Promise.method(/* @this */ function provisionToken(opts) {
+AuthTokenProvisioner.prototype.provisionToken = promised(/* @this */ function provisionToken(opts) {
 	var self = this;
 
 	opts = opts || {};

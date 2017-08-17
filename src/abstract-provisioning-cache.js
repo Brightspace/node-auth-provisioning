@@ -2,7 +2,7 @@
 
 var inherits = require('util').inherits,
 	jws = require('jws'),
-	Promise = require('bluebird'),
+	promised = require('promised-method'),
 	qs = require('querystring'),
 	xtend = require('xtend');
 
@@ -18,9 +18,11 @@ function ValueLookupFailed(inner) {
 }
 inherits(ValueLookupFailed, Error);
 
+function noop() {}
+
 function AbstractProvisioningCache() {}
 
-AbstractProvisioningCache.prototype.get = Promise.method(/* @this */ function get(claims, scope) {
+AbstractProvisioningCache.prototype.get = promised(/* @this */ function get(claims, scope) {
 	if ('object' !== typeof claims) {
 		throw new Error('"claims" must be an Object');
 	}
@@ -60,7 +62,7 @@ AbstractProvisioningCache.prototype.get = Promise.method(/* @this */ function ge
 		});
 });
 
-AbstractProvisioningCache.prototype.set = Promise.method(/* @this */ function set(claims, scope, token) {
+AbstractProvisioningCache.prototype.set = promised(/* @this */ function set(claims, scope, token) {
 	if ('object' !== typeof claims) {
 		throw new Error('"claims" must be an Object');
 	}
@@ -91,7 +93,7 @@ AbstractProvisioningCache.prototype.set = Promise.method(/* @this */ function se
 
 	return Promise
 		.resolve(this._set(key, token, expiry))
-		.return(undefined);
+		.then(noop);
 });
 
 AbstractProvisioningCache.prototype._buildKey = function buildKey(claims, scope) {
