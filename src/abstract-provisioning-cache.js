@@ -6,6 +6,8 @@ var inherits = require('util').inherits,
 	qs = require('querystring'),
 	xtend = require('xtend');
 
+var clock = require('./clock');
+
 var DEFAULT_EXPIRY_SECONDS = 60 * 60,
 	EXPIRY_BUFFER_TIME_SECONDS = 2 * 60;
 
@@ -15,10 +17,6 @@ function ValueLookupFailed(inner) {
 	this.inner = inner;
 }
 inherits(ValueLookupFailed, Error);
-
-function clock() {
-	return Math.round(Date.now() / 1000);
-}
 
 function AbstractProvisioningCache() {}
 
