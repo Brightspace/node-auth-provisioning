@@ -2,7 +2,7 @@
 
 var jws = require('jws'),
 	Promise = require('bluebird'),
-	qs = require('querystringparser'),
+	qs = require('querystring'),
 	request = require('superagent'),
 	uuid = require('uuid/v4'),
 	xtend = require('xtend');
