@@ -3,6 +3,11 @@
   "version": "2.2.0",
   "description": "Make token assertions against an auth service",
   "main": "src/index.js",
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "check-style": "eslint .",
     "test": "npm run check-style"
